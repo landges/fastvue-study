@@ -15,7 +15,7 @@ export default{
 
 .btn{
     padding: 10px 20px;
-    margin: 10px 0px;
+    margin: 10px 10px;
     align-self: flex-start;
     background:none;
     border: 1px solid black;
