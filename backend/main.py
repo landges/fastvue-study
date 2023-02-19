@@ -1,6 +1,11 @@
+from backend import models, routers
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from .database import engine
+
+models.Base.metadata.create_all(bind=engine)
+
 
 app = FastAPI()
 
@@ -12,12 +17,4 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/posts")
-async def root():
-    posts={ "posts":[
-            {"id": 1, "title": "post1", "discriprion":"first post in vue"},
-            {"id": 2, "title": "post2", "discriprion":"second post in vue"},
-            {"id": 3, "title": "post3", "discriprion":"thirth post in vue"},
-        ]          
-    }
-    return JSONResponse(content=posts)
+app.include_router(routers.router, tags=['Notes'], prefix='/api')
