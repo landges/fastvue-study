@@ -1,6 +1,6 @@
 <template>
     <div class="post">
-        <div class="name"><strong>{{post.title}}</strong> {{post.discriprion}}</div>
+        <div class="name"><strong>{{post.title}}</strong> {{post.discription}}</div>
         <div class="btns">
             <my-button @click="$emit('remove',post)">Delete</my-button>
         </div>

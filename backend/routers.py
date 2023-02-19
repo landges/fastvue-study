@@ -11,6 +11,5 @@ router = APIRouter()
 async def root(db: Session = Depends(get_db), limit: int = 10, page: int = 1,search: str = ''):
     skip = (page - 1) * limit
 
-    posts = db.query(models.Note).filter(
-        models.Note.title.contains(search)).limit(limit).offset(skip).all()
-    return {'status': 'success', 'results': len(posts), 'notes': posts}
+    posts = db.query(models.Note).limit(limit).offset(skip).all()
+    return {'status': 'success', 'results': len(posts), 'posts': posts}

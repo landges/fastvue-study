@@ -7,7 +7,7 @@
             placeholder="title"/>
 
             <my-input 
-            v-model="post.discriprion"
+            v-model="post.discription"
             name="discription" 
             id="discription" 
             placeholder="discription"/>
