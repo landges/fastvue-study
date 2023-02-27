@@ -23,6 +23,7 @@ export default{
 <style scoped>
 input{
     margin-top: 10px;
+    margin-left: 10px;
     padding: 10px 15px;
 }
 </style>
