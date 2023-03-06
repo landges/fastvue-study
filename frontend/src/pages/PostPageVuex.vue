@@ -2,20 +2,22 @@
     <div>
         
         <h1>Page with posts</h1>
-        <!-- <my-input
+        <my-input
         v-focus
-        v-model="searchQuery"
+        :model-value="searchQuery"
+        @update:model-value="setSearchQuery"
         placeholder="Search..."
-        /> -->
+        />
         <div class="app__btns">
             <my-button
             @click="showDialog"
             >Create post</my-button>
 
-            <!-- <my-select
-            v-model="selectedSort"
+            <my-select
+            :model-value="selectedSort"
+            @update:model-value="setSelectedSort"
             :options="sortOptions"
-            /> -->
+            />
         </div>
         
         <my-dialog v-model:show="dialogVisible">
@@ -61,26 +63,18 @@ export default {
     },
     data(){
         return {
-            posts:[],
-            isPostLoading: false,
-            selectedSort: '',
-            searchQuery:'',
-            page:1,
-            limit:10,
-            totalPage:1,
-            sortOptions:[
-                {value:"id",name:"by id"},
-                {value:"title",name:"by name"},
-                {value:"discrition",name:"by dsc"}
-            ]
+            dialogVisible:false,
         }
     },
     methods:{
         ...mapActions({
-
+            loadMorePosts : 'post/loadMorePosts',
+            fetchPosts: 'post/fetchPosts'
         }),
         ...mapMutations({
-
+            setPage: 'post/setPage',
+            setSearchQuery: 'post/setSearchQuery',
+            setSelectedSort:'post/setSelectedSort'
         }),
         createPost(post){
             this.posts.push(post);
@@ -99,11 +93,25 @@ export default {
 
     },
     mounted(){
-        // this.fetchPosts();
+        this.fetchPosts();
         
     },
     computed:{
-        
+        ...mapGetters({
+            sortedPosts:'post/sortedPosts',
+            sortedAndSearchPosts:'post/sortedAndSearchPosts'
+        }),
+        ...mapState({
+            posts:state=>state.post.posts,
+            dialogVisible:state=>state.post.dialogVisible,
+            isPostLoading: state=>state.post.isPostLoading,
+            selectedSort: state=>state.post.selectedSort,
+            searchQuery:state=>state.post.searchQuery,
+            page:state=>state.post.page,
+            limit:state=>state.post.limit,
+            totalPage:state=>state.post.totalPage,
+            sortOptions:state=>state.post.sortOptions
+        })
     },
     watch:{
         // page(){

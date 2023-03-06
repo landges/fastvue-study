@@ -1,3 +1,5 @@
+import axios from "axios";
+
 export const postModule = {
     state:()=>({
         posts:[],
@@ -16,7 +18,7 @@ export const postModule = {
     }),
     getters:{
         sortedPosts(state){
-            return [state.posts].sort((post1,post2)=>post1[state.selectedSort]?.localeCompare(post2[state.selectedSort]))
+            return [...state.posts].sort((post1,post2)=>post1[state.selectedSort]?.localeCompare(post2[state.selectedSort]))
         },
         sortedAndSearchPosts(state, getters){
             return getters.sortedPosts.filter(post => post.title.toLowerCase().includes(state.searchQuery.toLowerCase()));
@@ -24,7 +26,7 @@ export const postModule = {
     },
     mutations:{
         setPosts(state, posts){
-            state.pots=posts;
+            state.posts=posts;
         },
         setLoading(state,isPostLoading){
             state.isPostLoading = isPostLoading;
@@ -51,13 +53,14 @@ export const postModule = {
                 const response = await axios.get('http://127.0.0.1:8000/api/posts',{
                     params:{
                         page: state.page,
-                        limit:state.limit,
+                        limit: state.limit,
                     }
                 });
                 commit('setTotalpage',10);
                 commit('setPosts', response.data.posts);
             }
             catch(e){
+                console.log(e);
                 alert("Error");
             }
             finally{
@@ -71,7 +74,7 @@ export const postModule = {
                 const response = await axios.get('http://127.0.0.1:8000/api/posts',{
                     params:{
                         page: state.page,
-                        limit:state.limit,
+                        limit: state.limit,
                     }
                 });
                 commit('setTotalpage',10);
@@ -79,8 +82,10 @@ export const postModule = {
             }
             catch(e){
                 alert("Error");
+                console.log(e);
             }
             finally{
+                alert("error");
                 // this.isPostLoading = false;
             }
         }
